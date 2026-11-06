@@ -1,0 +1,85 @@
+{
+  "name": "accept-button",
+  "displayName": "Google Antigravity Auto Click on Accept Button",
+  "description": "Clicks \"Accept all\" in Google Antigravity IDE for you, even when the window is minimized or in the background.",
+  "version": "1.0.0",
+  "publisher": "antigravity-auto-click",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/m122333/google-antigravity-auto-click-on-accept-button"
+  },
+  "bugs": {
+    "url": "https://github.com/m122333/google-antigravity-auto-click-on-accept-button/issues"
+  },
+  "homepage": "https://github.com/m122333/google-antigravity-auto-click-on-accept-button#readme",
+  "icon": "icon.png",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "antigravity",
+    "auto accept",
+    "accept all",
+    "agent"
+  ],
+  "extensionKind": [
+    "ui"
+  ],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": true
+    },
+    "virtualWorkspaces": true
+  },
+  "main": "./extension.js",
+  "activationEvents": [
+    "onStartupFinished",
+    "onUri"
+  ],
+  "scripts": {
+    "vscode:uninstall": "node ./uninstall.js"
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "autoClick.toggle",
+        "title": "Turn On/Off",
+        "category": "Auto Click"
+      },
+      {
+        "command": "autoClick.showLog",
+        "title": "Show Log",
+        "category": "Auto Click"
+      }
+    ],
+    "configuration": {
+      "title": "Google Antigravity Auto Click on Accept Button",
+      "properties": {
+        "autoClick.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Click the buttons below automatically."
+        },
+        "autoClick.buttons": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "Accept all"
+          ],
+          "description": "Exact button labels to click (not case-sensitive). Adding \"Run\" would also run the terminal commands the agent suggests without asking you."
+        },
+        "autoClick.debugPort": {
+          "type": "number",
+          "default": 9333,
+          "description": "Local port used to reach Antigravity's windows. Only used when argv.json has no remote-debugging-port yet."
+        }
+      }
+    }
+  }
+}
