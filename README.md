@@ -48,7 +48,7 @@ In Antigravity, open the Extensions view, click `...`, choose **Install from VSI
 
 ## How it works
 
-Antigravity is built on Electron. The `remote-debugging-port` entry in `argv.json` makes it accept DevTools connections on `127.0.0.1`. The extension connects to each Antigravity window through that port and installs a small `MutationObserver` in the page that clicks a button as soon as its text matches one of the configured labels.
+Antigravity is built on Electron. The `remote-debugging-port` entry in `argv.json` makes it accept DevTools connections on `127.0.0.1`. The extension connects to each Antigravity window, and to the agent panel (which Antigravity renders in its own frame served by its local language server), through that port. In each one it installs a small `MutationObserver` that clicks a button as soon as its text matches one of the configured labels. Webviews of other extensions are left alone.
 
 The page script stops by itself if the extension does not check in for 10 seconds, so turning the extension off, uninstalling it, or a crash never leaves anything clicking in the background.
 

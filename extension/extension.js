@@ -14,6 +14,17 @@ function argvFile() {
   return path.join(os.homedir(), product.dataFolderName, 'argv.json');
 }
 
+function isWindow(target) {
+  return target.type === 'page' && String(target.url).startsWith('vscode-file://');
+}
+
+function isAgentPanel(target) {
+  return (
+    target.type === 'iframe' &&
+    /^http:\/\/(127\.0\.0\.1|localhost):\d+\/[^?#]*\?(.*&)?extensionView=true(&|$)/.test(String(target.url))
+  );
+}
+
 function buildPageScript(buttons) {
   const labels = buttons.map((label) => String(label).replace(/\s+/g, ' ').trim().toLowerCase());
   const key = JSON.stringify(labels);
@@ -259,9 +270,7 @@ class AutoAccept {
     try {
       const response = await fetch(`http://127.0.0.1:${this.port}/json/list`, { signal: AbortSignal.timeout(2000) });
       const targets = await response.json();
-      return targets.filter(
-        (target) => target.type === 'page' && target.webSocketDebuggerUrl && String(target.url).startsWith('vscode-file://'),
-      );
+      return targets.filter((target) => target.webSocketDebuggerUrl && (isWindow(target) || isAgentPanel(target)));
     } catch {
       return null;
     }
@@ -276,7 +285,8 @@ class AutoAccept {
       }
       if (!this.enabled) return;
       const clicked = await session.evaluate(this.pageScript);
-      for (const label of clicked || []) this.recordClick(label, page.title);
+      const where = isAgentPanel(page) ? 'the agent panel' : page.title;
+      for (const label of clicked || []) this.recordClick(label, where);
     } catch {
       if (session) session.close();
       this.sessions.delete(page.id);

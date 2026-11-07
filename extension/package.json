@@ -2,7 +2,7 @@
   "name": "accept-button",
   "displayName": "Google Antigravity Auto Click on Accept Button",
   "description": "Clicks \"Accept all\" in Google Antigravity IDE for you, even when the window is minimized or in the background.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "publisher": "antigravity-auto-click",
   "license": "MIT",
   "repository": {
